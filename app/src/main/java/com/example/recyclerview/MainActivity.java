@@ -10,8 +10,14 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
@@ -33,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private MyRecyclerViewAdapter mAdapter; //适配器
     private List<NotepadBean> data;         //list
     private ImageView imageView;
+    private EditText searchEdit;
+    private ImageView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +50,15 @@ public class MainActivity extends AppCompatActivity {
 
         mRecyclerView =findViewById(R.id.recycler_view);
         imageView = findViewById(R.id.add);
+        searchView = findViewById(R.id.search_image);
+        searchEdit = findViewById(R.id.search_edit);
+        //这句代码使得打开activity时不会自动弹出输入法
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
         //线性布局
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+
         //横向排列ItemView
         //linearLayoutManager.setOrientation(linearLayoutManager.HORIZONTAL);
         //数据反向展示
@@ -60,11 +75,53 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent,1);
             }
         });
+        //设置 当输入框改变时自动搜索
+        searchEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mAdapter.setDataSource(searchData(searchEdit.getText().toString()));
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+
+
+
+        });
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final InputMethodManager imm =(InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(searchEdit.getWindowToken(),0);
+                String words =searchEdit.getText().toString().trim();
+                if(!words.equals("")){
+                    mAdapter.setDataSource(searchData(words));
+                    mAdapter.notifyDataSetChanged();
+                } else{
+                    Toast.makeText(MainActivity.this, "搜索的内容不能空！", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
         //点击事件和长按事件
         mAdapter.setOnItemClickListener(new MyRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void OnItemClick(View view,int position) {
-                Toast.makeText(MainActivity.this, "click"+position, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "click"+position, Toast.LENGTH_SHORT).show();
+                //跳转到RecordActivity
+                //并将数据传过去
+                NotepadBean notepadBean=data.get(position);
+                Intent intent=new Intent(MainActivity.this,RecordActivity.class);
+                intent.putExtra("id",notepadBean.getId());
+                intent.putExtra("content",notepadBean.getNotepadContent());
+                intent.putExtra("time",notepadBean.getNotepadTime());
+                MainActivity.this.startActivityForResult(intent,1);
             }
         });
         mAdapter.setLongClickListener(new MyRecyclerViewAdapter.OnItemLongClickListener() {
@@ -80,10 +137,16 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()){
-                            case R.id.top:
+                            case R.id.top:      //置顶按钮
                                 Toast.makeText(MainActivity.this,"置顶",Toast.LENGTH_SHORT).show();
+                                NotepadBean notepadBean = data.get(position);
+                                String Id = notepadBean.getId();
+                                mAdapter.setDataSource(setTop(Id));
+                                //mRecyclerView.setAdapter(mAdapter);
+                                mAdapter.notifyDataSetChanged();
+
                                 break;
-                            case R.id.delete:
+                            case R.id.delete:   //删除按钮
                                 //Toast.makeText(MainActivity.this,"删除",Toast.LENGTH_SHORT).show();
                                 //用代码方式画出dialog对话框
                                 AlertDialog dialog;
@@ -98,7 +161,6 @@ public class MainActivity extends AppCompatActivity {
                                                     mAdapter.notifyDataSetChanged();
                                                     Toast.makeText(MainActivity.this,"删除成功",Toast.LENGTH_LONG).show();
                                                 }
-
                                             }
                                         })
                                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -124,7 +186,21 @@ public class MainActivity extends AppCompatActivity {
     public List<NotepadBean> getData() {
         if(data!=null)
             data.clear();
-        data = mSQLiteHelper.query();
+        String Id= new String();
+        data = mSQLiteHelper.query(Id);
+        return data;
+    }
+
+    public List<NotepadBean> setTop(String Id){
+        if(data!=null)
+            data.clear();
+        data = mSQLiteHelper.query(Id);
+        return data;
+    }
+    public List<NotepadBean> searchData(String string) {
+        if(data!=null)
+            data.clear();
+        data = mSQLiteHelper.searchQuery(string);
         return data;
     }
 

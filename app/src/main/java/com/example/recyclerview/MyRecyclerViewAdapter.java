@@ -78,7 +78,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         //holder.mImageView.setImageResource(getIcon(position));
         holder.mTextView.setText(dataSource.get(position).getNotepadContent());
-
+        //holder.mTimeView.setText(dataSource.get(position).getNotepadTitle());
+        holder.mTimeView.setText(dataSource.get(position).getNotepadTime());
         //点击事件接口回调
         holder.itemView.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -118,35 +119,18 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         return dataSource.size();
     }
 
-//    private int getIcon(int position){
-//////        switch (position % 5){
-//////            case 0:
-//////                return R.mipmap.a;
-//////            case 1:
-//////                return R.mipmap.b;
-//////            case 2:
-//////                return R.mipmap.c;
-//////            case 3:
-//////                return R.mipmap.d;
-//////            case 4:
-//////                return R.mipmap.e;
-//////
-//////        }
-//////        return 0;
-//////    }
-
     private int getRandomHeight(){
-        return (int)(Math.random()*1000);
+        return (int)(Math.random()*1000-30);
     }
     class MyViewHolder extends RecyclerView.ViewHolder{
-        TextView mTitleView;
+        //TextView mTitleView;
         TextView mTextView;
         TextView mTimeView;
 
         public MyViewHolder (@NonNull View itemView){
             super(itemView);
 
-            mTitleView = itemView.findViewById(R.id.titleView);
+            //mTitleView = itemView.findViewById(R.id.titleView);
             mTextView = itemView.findViewById(R.id.contentView);
             mTimeView = itemView.findViewById(R.id.timeView);
         }

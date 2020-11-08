@@ -4,13 +4,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DBUtils {
-    public static final String DATABASE_NAME="Notepad";//数据库名
+    public static final String DATABASE_NAME="notepad_New";//数据库名
     public static final String DATABASE_TABLE="Record";//表名
     public static final int DATABASE_VERSION=1;//数据库版本
 
     //数据库表中的列名
     public static String NOTEPAD_ID="id";
-    public static String NOTEPAD_TITLE="title";
+    //public static String NOTEPAD_TITLE="title";
     public static final String NOTEPAD_CONTENT="content";
     public static final String NOTEPAD_TIME="noteTime";
 
