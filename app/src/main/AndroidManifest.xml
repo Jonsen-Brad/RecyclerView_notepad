@@ -10,6 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name=".RecordActivity"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait"></activity>
         <activity android:name=".MainActivity"
             android:screenOrientation="portrait">

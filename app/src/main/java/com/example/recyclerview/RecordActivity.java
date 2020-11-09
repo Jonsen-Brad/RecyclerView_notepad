@@ -32,6 +32,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
     public  final int CAMERA = 1;
 
     ImageView note_back;
+    ImageView insertImage;
     TextView note_time;
     EditText content;
     //EditText title;
@@ -50,12 +51,14 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
         note_time=findViewById(R.id.tv_time);       //时间
         content= findViewById(R.id.note_content);   //内容
         //title = findViewById(R.id.note_title);      //标题
+        insertImage = findViewById(R.id.insertImage);   //插入图片
         delete=findViewById(R.id.delete);           //清空键
         note_save= findViewById(R.id.note_save);    //保存键
         noteName= findViewById(R.id.note_name);     //标题
         //设置点击事件
         note_back.setOnClickListener(this);
         delete.setOnClickListener(this);
+        insertImage.setOnClickListener(this);
         note_save.setOnClickListener(this);
         initData();
     }
@@ -103,7 +106,8 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.note_save:    //保存键被点击
 
-                String noteContent =content.getText().toString().trim();    //trim删除首尾空格
+                //String noteContent =content.getText().toString().trim();    //trim删除首尾空格
+                String noteContent =content.getText().toString();
                 //String noteTitle = title.getText().toString().trim();
                 if(id!=null){
                     //修改记录的功能
@@ -172,7 +176,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                         //创建一个SpannableString对象，以便插入用ImageSpan对象封装的图像
                         SpannableString spannableString = new SpannableString("[local]" + 1 + "[/local]");
 
-                        SpannableString ss = new SpannableString("pic");
+                        SpannableString ss = new SpannableString("[图片]");
                         Drawable d = new BitmapDrawable(bitmap);
                         d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
                         //ImageSpan imageSpan = new ImageSpan(d, ImageSpan.ALIGN_BOTTOM);

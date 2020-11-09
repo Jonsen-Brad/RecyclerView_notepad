@@ -9,12 +9,15 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -41,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imageView;
     private EditText searchEdit;
     private ImageView searchView;
+    private ImageView empty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +52,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         CrashReport.initCrashReport(getApplicationContext(), "629f8fa455", true);
 
+        Window window = getWindow();
+        //After LOLLIPOP not translucent status bar
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        //Then call setStatusBarColor.
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.setStatusBarColor(Color.parseColor("#f3efef"));
+        }
+
         mRecyclerView =findViewById(R.id.recycler_view);
         imageView = findViewById(R.id.add);
         searchView = findViewById(R.id.search_image);
         searchEdit = findViewById(R.id.search_edit);
+        empty = findViewById(R.id.clear);
+        empty.setVisibility(View.GONE);
         //这句代码使得打开activity时不会自动弹出输入法
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -68,11 +83,20 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mAdapter = new MyRecyclerViewAdapter(this,mRecyclerView);
         showQueryData();
+        //为添加按钮添加点击事件
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(MainActivity.this,RecordActivity.class);
                 startActivityForResult(intent,1);
+            }
+        });
+
+        //当点击清空按钮
+        empty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchEdit.setText("");
             }
         });
         //设置 当输入框改变时自动搜索
@@ -84,6 +108,13 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String temp = searchEdit.getText().toString();
+                if(temp.equals("")){
+                    empty.setVisibility(View.GONE);
+                }
+                else {
+                    empty.setVisibility(View.VISIBLE);
+                }
                 mAdapter.setDataSource(searchData(searchEdit.getText().toString()));
             }
 

@@ -2,35 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/rounded_edittext"
+    android:background="@drawable/bg_shadow_white"
     android:layout_margin="4dp">
-<!--    #A4D3EE-->
-<!--    <TextView-->
-<!--        android:id="@+id/titleView"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:textSize="22sp"-->
-<!--        android:textColor="#000"-->
-<!--        android:gravity="center_vertical"-->
-<!--        android:layout_marginLeft="10dp"-->
-<!--        android:layout_marginRight="10dp"-->
-<!--        android:layout_height="wrap_content"/>-->
     <TextView
         android:id="@+id/contentView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="30dp"
         android:layout_marginRight="10dp"
-        android:textSize="40sp"
-        android:textColor="#000"
-        android:gravity="center_vertical"
-        />
+        android:textSize="15sp"
+        android:textColor="#707070" />
     <TextView
         android:id="@+id/timeView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="15sp"
-        android:textColor="#000"
-        android:gravity="center_vertical"
+        android:textColor="#bfbfbf"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"/>
 

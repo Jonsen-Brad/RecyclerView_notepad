@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fefefe"
+    android:fitsSystemWindows="true"
     tools:context=".RecordActivity">
     <RelativeLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:background="#afcd50"
+        android:background="#fff"
         android:orientation="horizontal">
         <ImageView
             android:id="@+id/note_back"
@@ -19,11 +21,11 @@
             android:paddingLeft="11dp"
             android:src="@mipmap/back"/>
         <ImageView
-            android:id="@+id/insertImage"
+            android:id="@+id/note_save"
             android:layout_width="45dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:src="@android:drawable/ic_menu_gallery"
+            android:src="@mipmap/seleted"
             android:paddingRight="11dp"
             android:onClick="onClick"
             android:layout_alignParentRight="true"/>
@@ -48,52 +50,54 @@
         android:gravity="center"
         android:visibility="gone"
         android:textColor="#fb7a6a"/>
-    <EditText
-        android:id="@+id/note_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="标题"
-        android:paddingLeft="5dp"
-        android:textColor="@android:color/black"
-        android:background="#fefefe"/>
+<!--    <EditText-->
+<!--        android:id="@+id/note_title"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:hint="标题"-->
+<!--        android:paddingLeft="5dp"-->
+<!--        android:textColor="@android:color/black"-->
+<!--        android:background="#fefefe"/>-->
 
     <EditText
         android:id="@+id/note_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/header"
         android:layout_weight="1"
         android:gravity="top"
         android:hint="请输入要添加的内容"
         android:paddingLeft="5dp"
         android:textColor="@android:color/black"
         android:background="#fefefe"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#afcd50"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_alignParentBottom="true"
+        android:background="#f3efef"
         android:orientation="horizontal">
+
         <ImageView
             android:id="@+id/delete"
-            android:layout_width="0dp"
+            android:layout_width="10dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:src="@mipmap/delete"
+            android:src="@mipmap/close"
             android:paddingBottom="15dp"
             android:paddingTop="9dp"/>
+
         <ImageView
-            android:id="@+id/note_save"
-            android:layout_width="0dp"
+            android:id="@+id/insertImage"
+            android:layout_width="10dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:src="@mipmap/save"
+            android:src="@mipmap/pic"
+            android:onClick="onClick"
             android:paddingBottom="15dp"
             android:paddingTop="9dp"/>
     </LinearLayout>
 
 
 
-</LinearLayout>
+</RelativeLayout>

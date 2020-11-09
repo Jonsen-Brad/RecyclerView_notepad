@@ -5,64 +5,95 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#fff"
+    android:background="#f3efef"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/changView"
+<!--    <Button-->
+<!--        android:id="@+id/changView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginLeft="10dp"-->
+<!--        android:layout_marginRight="10dp"-->
+<!--        android:layout_marginTop="10dp"-->
+
+<!--        android:text="切换布局"-->
+<!--    android:onClick="onChangeLayoutClick"/>-->
+    <RelativeLayout
+        android:id="@+id/mainHeader"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_height="45dp"
+        android:orientation="horizontal"
+        android:background="#f3efef">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="2dp"
+
+            android:text="备忘录"
+            android:textSize="22sp"
+            android:textColor="#000"/>
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
+        android:layout_below="@id/mainHeader"
         android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/rounded_searchbar"
+        android:layout_height="35dp">
+        <ImageView
+            android:id="@+id/search_image"
+            android:layout_width="22dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:src="@mipmap/searchn" />
+        <EditText
+            android:id="@+id/search_edit"
+            android:layout_centerVertical="true"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:hint="搜索笔记"
+            android:background="@null"
+            />
+        <ImageView
+            android:id="@+id/clear"
+            android:layout_width="22dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:src="@mipmap/clear"/>
 
-        android:text="切换布局"
-    android:onClick="onChangeLayoutClick"/>
+    </LinearLayout>
 
-    <ImageView
-        android:id="@+id/search_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/search_edit"
-        android:layout_alignRight="@id/changView"
-        android:layout_alignBottom="@+id/search_edit"
-        android:src="@mipmap/search" />
-    <EditText
-        android:id="@+id/search_edit"
-        android:layout_margin="10dp"
-        android:hint="搜索"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/changView"
-        android:layout_toLeftOf="@+id/search_image"
-        android:layout_alignLeft="@id/changView"
-        android:background="@null"
-        />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#000"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_below="@id/search_edit"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/search_edit"
+        android:layout_below="@+id/search_bar"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="5dp"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="0dp" />
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="0dp"
+        />
 
     <ImageView
         android:id="@+id/add"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="30dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="10dp"
         android:src="@mipmap/add"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"/>
