@@ -23,17 +23,32 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:orientation="horizontal"
+        android:layout_marginTop="10dp"
         android:background="#f3efef">
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/menu_hamburger"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginTop="2dp"
+            android:layout_centerInParent="true"
+
 
             android:text="备忘录"
             android:textSize="22sp"
             android:textColor="#000"/>
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/prompt"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="10dp"/>
     </RelativeLayout>
 
 
@@ -42,6 +57,7 @@
         android:layout_width="match_parent"
         android:layout_below="@id/mainHeader"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/rounded_searchbar"
@@ -54,7 +70,6 @@
             android:src="@mipmap/searchn" />
         <EditText
             android:id="@+id/search_edit"
-            android:layout_centerVertical="true"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -84,10 +99,12 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="5dp"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginBottom="0dp"
-        />
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="0dp" />
+
+
+
 
     <ImageView
         android:id="@+id/add"

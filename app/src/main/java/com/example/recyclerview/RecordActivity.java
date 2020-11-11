@@ -2,9 +2,13 @@ package com.example.recyclerview;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -12,6 +16,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ImageSpan;
@@ -24,12 +30,17 @@ import android.widget.Toast;
 import com.example.recyclerview.DBUtils.DBUtils;
 import com.example.recyclerview.SQLiteHelper.SQLiteHelper;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class RecordActivity extends AppCompatActivity implements View.OnClickListener{
 
-    public  final int PICTURE = 0;
-    public  final int CAMERA = 1;
+    public  final int PICTURE_IMAGE_CODE = 0;
+    public  final int CAMERA_IMAGE_CODE = 1;
 
     ImageView note_back;
     ImageView insertImage;
@@ -39,6 +50,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
     ImageView delete;
     ImageView note_save;
     TextView noteName;
+    private static String TEMP_IMAGE_PATH;
     private SQLiteHelper mSQLiteHelper;
     private String id;
 
@@ -55,6 +67,20 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
         delete=findViewById(R.id.delete);           //清空键
         note_save= findViewById(R.id.note_save);    //保存键
         noteName= findViewById(R.id.note_name);     //标题
+
+        int permission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if(permission != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+        }
+        permission = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+        if(permission != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CAMERA},1);
+        }
+
+        //跳转界面自动聚焦文本框
+        content.requestFocus();
+        content.setFocusable(true);
+
         //设置点击事件
         note_back.setOnClickListener(this);
         delete.setOnClickListener(this);
@@ -63,6 +89,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
         initData();
     }
 
+    //测试，插入drawable里的图片资源
     private void insertPic1() {
         SpannableString ss = new SpannableString("pic");
         Drawable d = getResources().getDrawable(R.drawable.save);
@@ -98,14 +125,17 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                 content.setText(" ");
                 break;
             case R.id.insertImage:          //插入本地图片按钮被点击
+
                 Intent getImage = new Intent(Intent.ACTION_GET_CONTENT);    // 跳转系统图库
                 //ACTION_GET_CONTENT 文件管理器
                 getImage.addCategory(Intent.CATEGORY_OPENABLE);             //增加一个OPENABLE分类，功能：使取得的uri可被resolver解析
                 getImage.setType("image/*");                                //设置类型
-                startActivityForResult(getImage,PICTURE);                   //启动，回调码为PICTURE
+                startActivityForResult(getImage,PICTURE_IMAGE_CODE);                   //启动，回调码为PICTURE
+                break;
+            case R.id.camera:
+                Toast.makeText(this, "暂时无法拍照插入图片!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.note_save:    //保存键被点击
-
                 //String noteContent =content.getText().toString().trim();    //trim删除首尾空格
                 String noteContent =content.getText().toString();
                 //String noteTitle = title.getText().toString().trim();
@@ -145,13 +175,19 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
         Toast.makeText(RecordActivity.this,message,Toast.LENGTH_LONG).show();
     }
 
+    /**
+     *  函数功能，intent从图库选择信息后的回调
+     * @param requestCode
+     * @param resultCode
+     * @param intent
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
         ContentResolver resolver =getContentResolver();
         if(resultCode == RESULT_OK){
             switch (requestCode) {
-                case PICTURE:               //当请求码为PICTURE
+                case PICTURE_IMAGE_CODE:               //当请求码为PICTURE
                     Uri originalUri=intent.getData();       //通过getData方法获取Uri
                     //定义bitmap
                     Bitmap bitmap=null;
@@ -185,9 +221,15 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                     }else {
                         Toast.makeText(this, "获取图片失败", Toast.LENGTH_SHORT).show();
                     }
+                    break;
+                case CAMERA_IMAGE_CODE:
+                    Toast.makeText(this, "暂时无法拍照插入图片", Toast.LENGTH_SHORT).show();
+                    break;
             }
         }
     }
+
+
 
     /**
      * 功能：调整bitmap图像的尺寸

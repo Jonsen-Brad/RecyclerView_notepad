@@ -41,17 +41,20 @@ public class MainActivity extends AppCompatActivity {
     private SQLiteHelper mSQLiteHelper;     //声明自定义的数据库操作类
     private MyRecyclerViewAdapter mAdapter; //适配器
     private List<NotepadBean> data;         //list
-    private ImageView imageView;
-    private EditText searchEdit;
-    private ImageView searchView;
-    private ImageView empty;
+    private ImageView imageView;            //add图片
+    private EditText searchEdit;            //搜索框
+    private ImageView searchView;           //搜索图标
+    private ImageView empty;                //搜索框右边的清空图标
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //创建bugly产品
         CrashReport.initCrashReport(getApplicationContext(), "629f8fa455", true);
 
+        //以下代码为调整状态栏颜色与背景色相同
         Window window = getWindow();
         //After LOLLIPOP not translucent status bar
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -61,12 +64,14 @@ public class MainActivity extends AppCompatActivity {
             window.setStatusBarColor(Color.parseColor("#f3efef"));
         }
 
+
         mRecyclerView =findViewById(R.id.recycler_view);
         imageView = findViewById(R.id.add);
         searchView = findViewById(R.id.search_image);
         searchEdit = findViewById(R.id.search_edit);
         empty = findViewById(R.id.clear);
-        empty.setVisibility(View.GONE);
+        empty.setVisibility(View.GONE);     //初始化搜索框的X为隐藏
+
         //这句代码使得打开activity时不会自动弹出输入法
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -78,9 +83,10 @@ public class MainActivity extends AppCompatActivity {
         //linearLayoutManager.setOrientation(linearLayoutManager.HORIZONTAL);
         //数据反向展示
         //linearLayoutManager.setReverseLayout(true);
-        mSQLiteHelper=new SQLiteHelper(this);
 
-        mRecyclerView.setLayoutManager(linearLayoutManager);
+        mSQLiteHelper=new SQLiteHelper(this);       //初始化数据库辅助类
+
+        mRecyclerView.setLayoutManager(linearLayoutManager);        //初始化布局管理器
         mAdapter = new MyRecyclerViewAdapter(this,mRecyclerView);
         showQueryData();
         //为添加按钮添加点击事件
@@ -231,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
     public List<NotepadBean> searchData(String string) {
         if(data!=null)
             data.clear();
-        data = mSQLiteHelper.searchQuery(string);
+            data = mSQLiteHelper.searchQuery(string);
         return data;
     }
 

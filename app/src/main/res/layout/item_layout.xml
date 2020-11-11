@@ -1,25 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginTop="6dp"
     android:background="@drawable/bg_shadow_white"
-    android:layout_margin="4dp">
-    <TextView
-        android:id="@+id/contentView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="10dp"
-        android:textSize="15sp"
-        android:textColor="#707070" />
-    <TextView
-        android:id="@+id/timeView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:textColor="#bfbfbf"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"/>
+    android:orientation="vertical">
+        <TextView
+            android:id="@+id/contentView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="30dp"
+            android:paddingLeft="30dp"
+            android:paddingEnd="30dp"
+            android:paddingRight="30dp"
+            android:layout_marginTop="20dp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:lineSpacingExtra="3dp"
+            android:paddingTop="10dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:textSize="22sp"
+            android:textColor="#707070" />
+        <TextView
+            android:id="@+id/timeView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="#bfbfbf"
+            android:paddingTop="5dp"
+            android:paddingBottom="7dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"/>
+
 
 
 </LinearLayout>
