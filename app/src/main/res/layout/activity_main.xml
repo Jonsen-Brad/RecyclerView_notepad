@@ -26,12 +26,13 @@
         android:layout_marginTop="10dp"
         android:background="#f3efef">
         <ImageView
-            android:layout_width="35dp"
+            android:id="@+id/menu_left"
+            android:layout_width="22dp"
             android:layout_height="wrap_content"
             android:src="@mipmap/menu_hamburger"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="15dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -42,13 +43,14 @@
             android:textSize="22sp"
             android:textColor="#000"/>
         <ImageView
-            android:layout_width="35dp"
+            android:id="@+id/introduce_btn"
+            android:layout_width="22dp"
             android:layout_height="wrap_content"
             android:src="@mipmap/prompt"
             android:layout_alignParentRight="true"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="15dp"/>
     </RelativeLayout>
 
 

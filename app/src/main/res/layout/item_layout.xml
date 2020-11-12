@@ -22,7 +22,7 @@
             android:paddingTop="10dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:textSize="22sp"
+            android:textSize="15sp"
             android:textColor="#707070" />
         <TextView
             android:id="@+id/timeView"

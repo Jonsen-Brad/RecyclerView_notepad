@@ -45,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText searchEdit;            //搜索框
     private ImageView searchView;           //搜索图标
     private ImageView empty;                //搜索框右边的清空图标
+    private ImageView introduce;        //软件介绍界面
+    private ImageView menuLeft;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,9 @@ public class MainActivity extends AppCompatActivity {
         imageView = findViewById(R.id.add);
         searchView = findViewById(R.id.search_image);
         searchEdit = findViewById(R.id.search_edit);
+        introduce = findViewById(R.id.introduce_btn);
+        menuLeft = findViewById(R.id.menu_left);
+
         empty = findViewById(R.id.clear);
         empty.setVisibility(View.GONE);     //初始化搜索框的X为隐藏
 
@@ -95,6 +100,21 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent=new Intent(MainActivity.this,RecordActivity.class);
                 startActivityForResult(intent,1);
+            }
+        });
+
+        //软件介绍界面
+        introduce.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,IntroduceActivity.class);
+                startActivity(intent);
+            }
+        });
+        menuLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "该功能暂时未开放！", Toast.LENGTH_SHORT).show();
             }
         });
 

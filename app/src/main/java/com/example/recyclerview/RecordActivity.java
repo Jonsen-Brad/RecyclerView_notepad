@@ -41,6 +41,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
 
     public  final int PICTURE_IMAGE_CODE = 0;
     public  final int CAMERA_IMAGE_CODE = 1;
+    static final int IMAGE_CODE = 99;
 
     ImageView note_back;
     ImageView insertImage;
@@ -53,6 +54,10 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
     private static String TEMP_IMAGE_PATH;
     private SQLiteHelper mSQLiteHelper;
     private String id;
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,9 +136,27 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                 getImage.addCategory(Intent.CATEGORY_OPENABLE);             //增加一个OPENABLE分类，功能：使取得的uri可被resolver解析
                 getImage.setType("image/*");                                //设置类型
                 startActivityForResult(getImage,PICTURE_IMAGE_CODE);                   //启动，回调码为PICTURE
+//                int permission_WRITE = ActivityCompat.checkSelfPermission(RecordActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+//                int permission_READ = ActivityCompat.checkSelfPermission(RecordActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE);
+//                if(permission_WRITE != PackageManager.PERMISSION_GRANTED || permission_READ != PackageManager.PERMISSION_GRANTED){
+//                    ActivityCompat.requestPermissions(RecordActivity.this,PERMISSIONS_STORAGE,REQUEST_EXTERNAL_STORAGE);
+//                }
+//
+//                Intent getAlbum = new Intent(Intent.ACTION_PICK);
+//                getAlbum.setType("image/*");
+//                startActivityForResult(getAlbum,IMAGE_CODE);
+
                 break;
             case R.id.camera:
-                Toast.makeText(this, "暂时无法拍照插入图片!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "暂时无法拍照插入图片!", Toast.LENGTH_SHORT).show();
+                TEMP_IMAGE_PATH= Environment.getExternalStorageDirectory().getPath()+"/temp.png";
+                //传入ACTION_IMAGE_CAPTURE:该action指向一个照相机app
+                Intent intent1=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                //创建File并获取它的URI值
+                Uri photoUri= Uri.fromFile(new File(TEMP_IMAGE_PATH));
+                //MediaStore.EXTRA_OUTPUT为字符串"output"，即将该键值对放进intent中
+                intent1.putExtra(MediaStore.EXTRA_OUTPUT,photoUri);
+                startActivityForResult(intent1,CAMERA_IMAGE_CODE);
                 break;
             case R.id.note_save:    //保存键被点击
                 //String noteContent =content.getText().toString().trim();    //trim删除首尾空格
@@ -184,13 +207,15 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
+        //定义bitmap
+        Bitmap bitmap = null;
         ContentResolver resolver =getContentResolver();
         if(resultCode == RESULT_OK){
             switch (requestCode) {
                 case PICTURE_IMAGE_CODE:               //当请求码为PICTURE
                     Uri originalUri=intent.getData();       //通过getData方法获取Uri
-                    //定义bitmap
-                    Bitmap bitmap=null;
+
+
                     Bitmap originalBitmap= null;
                     try {
                             /*
@@ -223,6 +248,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                     }
                     break;
                 case CAMERA_IMAGE_CODE:
+
                     Toast.makeText(this, "暂时无法拍照插入图片", Toast.LENGTH_SHORT).show();
                     break;
             }
